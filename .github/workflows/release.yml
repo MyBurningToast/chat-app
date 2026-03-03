@@ -19,13 +19,13 @@ jobs:
         dotnet-version: '9.0.x'
 
     - name: Restore dependencies
-      run: dotnet restore
+      run: dotnet restore ./ChatApp/ChatApp.sln
 
-    - name: Publish client
-      run: dotnet publish ./Client/Client.csproj -c Release -r win-x64 --self-contained true -o ./publish/client
+    - name: Publish ChatClient
+      run: dotnet publish ./ChatApp/ChatClient/ChatClient.csproj -c Release -r win-x64 --self-contained true -o ./publish/client
 
-    - name: Publish server
-      run: dotnet publish ./Server/Server.csproj -c Release -r win-x64 --self-contained true -o ./publish/server
+    - name: Publish ChatServer
+      run: dotnet publish ./ChatApp/ChatServer/ChatServer.csproj -c Release -r win-x64 --self-contained true -o ./publish/server
 
     - name: Create GitHub Release
       uses: softprops/action-gh-release@v1
@@ -34,11 +34,12 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-    - name: Upload release artifacts
-      uses: softprops/action-gh-release@v1
-      with:
-        files: |
-          ./publish/client/**
-          ./publish/server/**
+    - name: Upload main executables
+      run: |
+        echo "Uploading ChatClient.exe..."
+        gh release upload ${{ github.ref }} ./publish/client/ChatClient.exe --clobber
+
+        echo "Uploading ChatServer.exe..."
+        gh release upload ${{ github.ref }} ./publish/server/ChatServer.exe --clobber
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
