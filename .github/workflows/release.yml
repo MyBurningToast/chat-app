@@ -1,0 +1,44 @@
+name: Build and Release Chat App
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '9.0.x'
+
+    - name: Restore dependencies
+      run: dotnet restore
+
+    - name: Publish client
+      run: dotnet publish ./Client/Client.csproj -c Release -r win-x64 --self-contained true -o ./publish/client
+
+    - name: Publish server
+      run: dotnet publish ./Server/Server.csproj -c Release -r win-x64 --self-contained true -o ./publish/server
+
+    - name: Create GitHub Release
+      uses: softprops/action-gh-release@v1
+      with:
+        tag_name: ${{ github.ref }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Upload release artifacts
+      uses: softprops/action-gh-release@v1
+      with:
+        files: |
+          ./publish/client/**
+          ./publish/server/**
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
