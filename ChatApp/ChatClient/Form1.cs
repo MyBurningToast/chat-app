@@ -1,4 +1,5 @@
 using System.Net.Sockets;
+using SharedSettings;
 
 namespace ChatClient
 {
@@ -25,7 +26,7 @@ namespace ChatClient
             try
             {
                 client = new TcpClient();
-                client.Connect("127.0.0.1", 5000);
+                client.Connect(Settings.ServerIP, Settings.ServerPort);
 
                 NetworkStream stream = client.GetStream();
                 writer = new StreamWriter(stream) { AutoFlush = true };

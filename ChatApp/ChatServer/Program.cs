@@ -1,9 +1,10 @@
 ﻿using System.Net;
 using System.Net.Sockets;
+using SharedSettings;
 
-TcpListener server = new TcpListener(IPAddress.Any, 5000);
+TcpListener server = new TcpListener(IPAddress.Any, Settings.ServerPort);
 server.Start();
-Console.WriteLine($"Server started on port 5000...");
+Console.WriteLine($"Server started on port {Settings.ServerPort}...");
 
 List<StreamWriter> clients = new();
 object lockObj = new();
