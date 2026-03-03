@@ -26,23 +26,29 @@ void HandleClient(TcpClient client)
     StreamReader reader = new StreamReader(stream);
     StreamWriter writer = new StreamWriter(stream) { AutoFlush = true };
 
+    // the first message send will be the username
+    string? username = reader.ReadLine();
+    Console.WriteLine($"{username} connected");
+
     lock (lockObj) { clients.Add(writer); }
+
+    Broadcast($"{username} has joined");
 
     string? message;
     while ((message = reader.ReadLine()) != null)
     {
-        Console.WriteLine($"Recived: {message}");
-        Broadcast(message);
+        Console.WriteLine($"Recived from {username}: {message}");
+        Broadcast($"{username}: {message}");
     }
 
     lock (lockObj) { clients.Remove(writer); }
-    Console.WriteLine("Client discornected");
+    Console.WriteLine($"{username} discornected");
 }
 
 while (true)
 {
     TcpClient client = server.AcceptTcpClient();
-    Console.WriteLine("Client connected");
+    //Console.WriteLine("Client connected");
 
     Thread t = new Thread(() => HandleClient(client));
     t.Start();

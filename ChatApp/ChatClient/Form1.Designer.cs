@@ -31,18 +31,21 @@
             txtMessage = new TextBox();
             btnSend = new Button();
             lstMessages = new ListBox();
+            txtUsername = new TextBox();
+            btnConnect = new Button();
+            label1 = new Label();
             SuspendLayout();
             // 
             // txtMessage
             // 
-            txtMessage.Location = new Point(12, 339);
+            txtMessage.Location = new Point(214, 338);
             txtMessage.Name = "txtMessage";
             txtMessage.Size = new Size(248, 23);
             txtMessage.TabIndex = 0;
             // 
             // btnSend
             // 
-            btnSend.Location = new Point(266, 339);
+            btnSend.Location = new Point(468, 338);
             btnSend.Name = "btnSend";
             btnSend.Size = new Size(75, 23);
             btnSend.TabIndex = 1;
@@ -53,14 +56,43 @@
             // lstMessages
             // 
             lstMessages.FormattingEnabled = true;
-            lstMessages.Location = new Point(34, 20);
+            lstMessages.Location = new Point(259, 33);
             lstMessages.Name = "lstMessages";
             lstMessages.Size = new Size(284, 289);
             lstMessages.TabIndex = 2;
             // 
+            // txtUsername
+            // 
+            txtUsername.Location = new Point(84, 210);
+            txtUsername.Name = "txtUsername";
+            txtUsername.Size = new Size(112, 23);
+            txtUsername.TabIndex = 3;
+            // 
+            // btnConnect
+            // 
+            btnConnect.Location = new Point(108, 239);
+            btnConnect.Name = "btnConnect";
+            btnConnect.Size = new Size(75, 23);
+            btnConnect.TabIndex = 4;
+            btnConnect.Text = "Connect";
+            btnConnect.UseVisualStyleBackColor = true;
+            btnConnect.Click += btnConnect_Click;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(108, 192);
+            label1.Name = "label1";
+            label1.Size = new Size(60, 15);
+            label1.TabIndex = 5;
+            label1.Text = "Username";
+            // 
             // Form1
             // 
-            ClientSize = new Size(347, 370);
+            ClientSize = new Size(644, 406);
+            Controls.Add(label1);
+            Controls.Add(btnConnect);
+            Controls.Add(txtUsername);
             Controls.Add(lstMessages);
             Controls.Add(btnSend);
             Controls.Add(txtMessage);
@@ -74,5 +106,8 @@
         private TextBox txtMessage;
         private Button btnSend;
         private ListBox lstMessages;
+        private TextBox txtUsername;
+        private Button btnConnect;
+        private Label label1;
     }
 }

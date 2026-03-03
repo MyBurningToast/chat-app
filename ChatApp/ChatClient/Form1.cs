@@ -11,6 +11,16 @@ namespace ChatClient
         public Form1()
         {
             InitializeComponent();
+            btnSend.Enabled = false;
+        }
+
+        private void btnConnect_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(txtUsername.Text))
+            {
+                MessageBox.Show("Please enter a username");
+                return;
+            }
 
             try
             {
@@ -18,17 +28,24 @@ namespace ChatClient
                 client.Connect("127.0.0.1", 5000);
 
                 NetworkStream stream = client.GetStream();
-                writer = new StreamWriter(client.GetStream()) { AutoFlush = true };
+                writer = new StreamWriter(stream) { AutoFlush = true };
                 reader = new StreamReader(stream);
+
+                //send username first
+                writer.WriteLine(txtUsername.Text);
 
                 // listen for incoming mesages on a background thread
                 Thread t = new Thread(ReceiveMessages);
                 t.IsBackground = true;
                 t.Start();
+
+                btnSend.Enabled = true;
+                btnConnect.Enabled = false;
+                txtUsername.Enabled = false;
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                MessageBox.Show($"Failed: {e.Message}");
+                MessageBox.Show($"Failed: {ex.Message}");
             }
         }
 
@@ -37,7 +54,7 @@ namespace ChatClient
             string? message;
             while ((message = reader.ReadLine()) != null)
             {
-                Invoke(() => lstMessages.Items.Add(message)); // runs on ui thread
+                Invoke(() => lstMessages.Items.Add(message));
             }
         }
 
