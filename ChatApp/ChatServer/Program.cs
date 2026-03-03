@@ -19,37 +19,55 @@ void Broadcast(string message)
     }
 }
 
-
 void HandleClient(TcpClient client)
 {
     NetworkStream stream = client.GetStream();
     StreamReader reader = new StreamReader(stream);
     StreamWriter writer = new StreamWriter(stream) { AutoFlush = true };
 
-    // the first message send will be the username
-    string? username = reader.ReadLine();
+    string? username = null;
+    username = reader.ReadLine();
     Console.WriteLine($"{username} connected");
 
     lock (lockObj) { clients.Add(writer); }
 
     Broadcast($"{username} has joined");
 
-    string? message;
-    while ((message = reader.ReadLine()) != null)
+    try
     {
-        Console.WriteLine($"Recived from {username}: {message}");
-        Broadcast($"{username}: {message}");
+        string? message;
+        while ((message = reader.ReadLine()) != null)
+        {
+            Console.WriteLine($"Received from {username}: {message}");
+            Broadcast($"{username}: {message}");
+        }
     }
+    catch (IOException)
+    {
+        Console.WriteLine($"{username} connection lost unexpectedly.");
+    }
+    catch (SocketException)
+    {
+        Console.WriteLine($"{username} socket error.");
+    }
+    finally
+    {
+        lock (lockObj) { clients.Remove(writer); }
 
-    lock (lockObj) { clients.Remove(writer); }
-    Console.WriteLine($"{username} discornected");
+        if (username != null)
+            Broadcast($"{username} has left");
+
+        client.Close();
+        Console.WriteLine($"{username} disconnected");
+    }
 }
+
 
 while (true)
 {
     TcpClient client = server.AcceptTcpClient();
-    //Console.WriteLine("Client connected");
 
+    // new thread for each client
     Thread t = new Thread(() => HandleClient(client));
     t.Start();
 }
