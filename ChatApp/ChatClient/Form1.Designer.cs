@@ -38,14 +38,14 @@
             // 
             // txtMessage
             // 
-            txtMessage.Location = new Point(214, 338);
+            txtMessage.Location = new Point(130, 364);
             txtMessage.Name = "txtMessage";
-            txtMessage.Size = new Size(248, 23);
+            txtMessage.Size = new Size(349, 23);
             txtMessage.TabIndex = 0;
             // 
             // btnSend
             // 
-            btnSend.Location = new Point(468, 338);
+            btnSend.Location = new Point(485, 364);
             btnSend.Name = "btnSend";
             btnSend.Size = new Size(75, 23);
             btnSend.TabIndex = 1;
@@ -56,21 +56,21 @@
             // lstMessages
             // 
             lstMessages.FormattingEnabled = true;
-            lstMessages.Location = new Point(259, 33);
+            lstMessages.Location = new Point(130, 9);
             lstMessages.Name = "lstMessages";
-            lstMessages.Size = new Size(284, 289);
+            lstMessages.Size = new Size(430, 349);
             lstMessages.TabIndex = 2;
             // 
             // txtUsername
             // 
-            txtUsername.Location = new Point(84, 210);
+            txtUsername.Location = new Point(12, 30);
             txtUsername.Name = "txtUsername";
             txtUsername.Size = new Size(112, 23);
             txtUsername.TabIndex = 3;
             // 
             // btnConnect
             // 
-            btnConnect.Location = new Point(108, 239);
+            btnConnect.Location = new Point(12, 59);
             btnConnect.Name = "btnConnect";
             btnConnect.Size = new Size(75, 23);
             btnConnect.TabIndex = 4;
@@ -81,7 +81,7 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(108, 192);
+            label1.Location = new Point(12, 9);
             label1.Name = "label1";
             label1.Size = new Size(60, 15);
             label1.TabIndex = 5;
@@ -89,7 +89,7 @@
             // 
             // Form1
             // 
-            ClientSize = new Size(644, 406);
+            ClientSize = new Size(579, 401);
             Controls.Add(label1);
             Controls.Add(btnConnect);
             Controls.Add(txtUsername);

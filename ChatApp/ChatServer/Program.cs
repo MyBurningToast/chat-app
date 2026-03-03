@@ -27,11 +27,11 @@ void HandleClient(TcpClient client)
 
     string? username = null;
     username = reader.ReadLine();
-    Console.WriteLine($"{username} connected");
+    Console.WriteLine($"{username} connected.");
 
     lock (lockObj) { clients.Add(writer); }
 
-    Broadcast($"{username} has joined");
+    Broadcast($"{username} has joined.");
 
     try
     {
@@ -55,10 +55,10 @@ void HandleClient(TcpClient client)
         lock (lockObj) { clients.Remove(writer); }
 
         if (username != null)
-            Broadcast($"{username} has left");
+            Broadcast($"{username} has left.");
 
         client.Close();
-        Console.WriteLine($"{username} disconnected");
+        Console.WriteLine($"{username} disconnected.");
     }
 }
 
