@@ -84,7 +84,6 @@ namespace ChatClient
                         Invoke(() => lstMessageLogs.Items.Add($"{packet.Data[0]}: {packet.Data[1]}"));
                         break;
 
-
                     case PacketType.PrivateMessage:
                         Invoke(() => lstMessageLogs.Items.Add($"[PM from {packet.Data[0]}]: {packet.Data[1]}"));
                         break;
@@ -114,6 +113,18 @@ namespace ChatClient
             }
         }
 
+        void ClearReceiver()
+        {
+            rtxtReciver.Clear();
+            lstUsers.ClearSelected();
+            lblSendingTo.Text = "Sending to: Everyone";
+        }
+
+        private void lstUsers_DoubleClick(object sender, EventArgs e)
+        {
+            ClearReceiver();
+        }
+
         private void btnSend_Click(object sender, EventArgs e)
         {
             string message = rtxtMessage.Text;
@@ -139,10 +150,22 @@ namespace ChatClient
                 }
 
                 rtxtMessage.Clear();
+                ClearReceiver();
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Send error: " + ex.Message);
+            }
+        }
+
+        private void lstUsers_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (lstUsers.SelectedItem != null)
+            {
+                string selected = lstUsers.SelectedItem.ToString();
+                rtxtReciver.Text = selected;
+                lblSendingTo.Text = $"Sending to: {selected}";
+                rtxtMessage.Focus();
             }
         }
     }

@@ -34,15 +34,15 @@
             tableLayoutPanel1 = new TableLayoutPanel();
             tableLayoutPanel4 = new TableLayoutPanel();
             tableLayoutPanel5 = new TableLayoutPanel();
+            lstMessageLogs = new ListBox();
             lstUsers = new ListBox();
             tableLayoutPanel2 = new TableLayoutPanel();
             tableLayoutPanel7 = new TableLayoutPanel();
             label3 = new Label();
             btnSend = new Button();
-            label2 = new Label();
+            lblSendingTo = new Label();
             rtxtReciver = new RichTextBox();
             rtxtMessage = new RichTextBox();
-            lstMessageLogs = new ListBox();
             tableLayoutPanel1.SuspendLayout();
             tableLayoutPanel4.SuspendLayout();
             tableLayoutPanel5.SuspendLayout();
@@ -122,6 +122,14 @@
             tableLayoutPanel5.Size = new Size(837, 370);
             tableLayoutPanel5.TabIndex = 0;
             // 
+            // lstMessageLogs
+            // 
+            lstMessageLogs.FormattingEnabled = true;
+            lstMessageLogs.Location = new Point(320, 3);
+            lstMessageLogs.Name = "lstMessageLogs";
+            lstMessageLogs.Size = new Size(514, 364);
+            lstMessageLogs.TabIndex = 8;
+            // 
             // lstUsers
             // 
             lstUsers.FormattingEnabled = true;
@@ -129,6 +137,8 @@
             lstUsers.Name = "lstUsers";
             lstUsers.Size = new Size(150, 364);
             lstUsers.TabIndex = 7;
+            lstUsers.SelectedIndexChanged += lstUsers_SelectedIndexChanged;
+            lstUsers.DoubleClick += lstUsers_DoubleClick;
             // 
             // tableLayoutPanel2
             // 
@@ -151,7 +161,7 @@
             tableLayoutPanel7.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 75F));
             tableLayoutPanel7.Controls.Add(label3, 0, 0);
             tableLayoutPanel7.Controls.Add(btnSend, 2, 1);
-            tableLayoutPanel7.Controls.Add(label2, 1, 0);
+            tableLayoutPanel7.Controls.Add(lblSendingTo, 1, 0);
             tableLayoutPanel7.Controls.Add(rtxtReciver, 0, 1);
             tableLayoutPanel7.Controls.Add(rtxtMessage, 1, 1);
             tableLayoutPanel7.Location = new Point(164, 3);
@@ -167,9 +177,9 @@
             label3.AutoSize = true;
             label3.Location = new Point(3, 0);
             label3.Name = "label3";
-            label3.Size = new Size(48, 15);
+            label3.Size = new Size(54, 15);
             label3.TabIndex = 10;
-            label3.Text = "Reciver:";
+            label3.Text = "Receiver:";
             // 
             // btnSend
             // 
@@ -181,17 +191,18 @@
             btnSend.UseVisualStyleBackColor = true;
             btnSend.Click += btnSend_Click;
             // 
-            // label2
+            // lblSendingTo
             // 
-            label2.AutoSize = true;
-            label2.Location = new Point(158, 0);
-            label2.Name = "label2";
-            label2.Size = new Size(56, 15);
-            label2.TabIndex = 2;
-            label2.Text = "Message:";
+            lblSendingTo.AutoSize = true;
+            lblSendingTo.Location = new Point(158, 0);
+            lblSendingTo.Name = "lblSendingTo";
+            lblSendingTo.Size = new Size(56, 15);
+            lblSendingTo.TabIndex = 2;
+            lblSendingTo.Text = "Message:";
             // 
             // rtxtReciver
             // 
+            rtxtReciver.Enabled = false;
             rtxtReciver.Location = new Point(3, 21);
             rtxtReciver.Name = "rtxtReciver";
             rtxtReciver.Size = new Size(149, 25);
@@ -206,21 +217,13 @@
             rtxtMessage.TabIndex = 12;
             rtxtMessage.Text = "";
             // 
-            // lstMessageLogs
-            // 
-            lstMessageLogs.FormattingEnabled = true;
-            lstMessageLogs.Location = new Point(320, 3);
-            lstMessageLogs.Name = "lstMessageLogs";
-            lstMessageLogs.Size = new Size(514, 364);
-            lstMessageLogs.TabIndex = 8;
-            // 
-            // Form1
+            // ClientForm
             // 
             AutoScaleDimensions = new SizeF(96F, 96F);
             AutoScaleMode = AutoScaleMode.Dpi;
             ClientSize = new Size(866, 460);
             Controls.Add(tableLayoutPanel4);
-            Name = "Form1";
+            Name = "ClientForm";
             tableLayoutPanel1.ResumeLayout(false);
             tableLayoutPanel1.PerformLayout();
             tableLayoutPanel4.ResumeLayout(false);
@@ -242,7 +245,7 @@
         private TableLayoutPanel tableLayoutPanel7;
         private Label label3;
         private Button btnSend;
-        private Label label2;
+        private Label lblSendingTo;
         private RichTextBox rtxtReciver;
         private RichTextBox rtxtMessage;
         private TableLayoutPanel tableLayoutPanel2;

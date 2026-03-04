@@ -109,7 +109,6 @@ void HandleClient(Socket clientSocket)
 while (true)
 {
     Socket clientSocket = serverSocket.Accept();
-    Console.WriteLine("Client connected");
     Thread t = new Thread(() => HandleClient(clientSocket));
     t.Start();
 }
