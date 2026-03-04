@@ -1,74 +1,115 @@
 ﻿using System.Net;
 using System.Net.Sockets;
-using SharedSettings;
+using System.Text;
+using ChatShared;
 
-TcpListener server = new TcpListener(IPAddress.Any, Settings.ServerPort);
-server.Start();
-Console.WriteLine($"Server started on port {Settings.ServerPort}...");
+Socket serverSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+serverSocket.Bind(new IPEndPoint(IPAddress.Any, 5000));
+serverSocket.Listen(10);
+Console.WriteLine("Server started on port 5000...");
 
-List<StreamWriter> clients = new();
-object lockObj = new();
+Dictionary<string, Socket> clients = new Dictionary<string, Socket>();
+object lockObj = new object();
 
-void Broadcast(string message)
+void SendPacket(Socket socket, Packet packet)
 {
-    lock (lockObj)
-    {
-        foreach (var writer in clients)
-        {
-            writer.WriteLine(message);
-        }
-    }
+    byte[] data = Encoding.UTF8.GetBytes(packet.Serialize() + "\n");
+    socket.Send(data);
 }
 
-void HandleClient(TcpClient client)
+void Broadcast(Packet packet)
 {
-    NetworkStream stream = client.GetStream();
-    StreamReader reader = new StreamReader(stream);
-    StreamWriter writer = new StreamWriter(stream) { AutoFlush = true };
+    lock (lockObj)
+        foreach (var s in clients.Values)
+            SendPacket(s, packet);
+}
 
-    string? username = null;
-    username = reader.ReadLine();
-    Console.WriteLine($"{username} connected.");
+void BroadcastUserList()
+{
+    Broadcast(new Packet
+    {
+        Type = PacketType.UserList,
+        Data = clients.Keys.ToArray()
+    });
+}
 
-    lock (lockObj) { clients.Add(writer); }
-
-    Broadcast($"{username} has joined.");
-
+string ReceiveLine(Socket socket)
+{
+    StringBuilder sb = new StringBuilder();
+    byte[] buffer = new byte[1];
     try
     {
-        string? message;
-        while ((message = reader.ReadLine()) != null)
+        while (true)
         {
-            Console.WriteLine($"Received from {username}: {message}");
-            Broadcast($"{username}: {message}");
+            int received = socket.Receive(buffer);
+            if (received == 0) return null;
+            char c = (char)buffer[0];
+            if (c == '\n') return sb.ToString().Trim();
+            sb.Append(c);
         }
-    }
-    catch (IOException)
-    {
-        Console.WriteLine($"{username} connection lost unexpectedly.");
     }
     catch (SocketException)
     {
-        Console.WriteLine($"{username} socket error.");
-    }
-    finally
-    {
-        lock (lockObj) { clients.Remove(writer); }
-
-        if (username != null)
-            Broadcast($"{username} has left.");
-
-        client.Close();
-        Console.WriteLine($"{username} disconnected.");
+        return null;
     }
 }
 
+void HandleClient(Socket clientSocket)
+{
+    string username = ReceiveLine(clientSocket);
+    if (username == null) return;
+
+    Console.WriteLine($"{username} connected");
+    lock (lockObj) { clients.Add(username, clientSocket); }
+
+    Broadcast(new Packet { Type = PacketType.Join, Data = new[] { username } });
+    BroadcastUserList();
+
+    while (true)
+    {
+        string raw = ReceiveLine(clientSocket);
+        if (raw == null) break;
+
+        Packet packet = Packet.Deserialize(raw);
+
+        switch (packet.Type)
+        {
+            case PacketType.Message:
+                Console.WriteLine($"{username}: {packet.Data[0]}");
+                Broadcast(new Packet
+                {
+                    Type = PacketType.Message,
+                    Data = new[] { username, packet.Data[0] }
+                });
+                break;
+
+            case PacketType.PrivateMessage:
+                string target = packet.Data[0];
+                string msg = packet.Data[1];
+                lock (lockObj)
+                {
+                    if (clients.ContainsKey(target))
+                        SendPacket(clients[target], new Packet
+                        {
+                            Type = PacketType.PrivateMessage,
+                            Data = new[] { username, msg }
+                        });
+                }
+                break;
+        }
+    }
+
+    lock (lockObj) { clients.Remove(username); }
+    Broadcast(new Packet { Type = PacketType.Leave, Data = new[] { username } });
+    BroadcastUserList();
+    clientSocket.Close();
+    Console.WriteLine($"{username} disconnected");
+}
 
 while (true)
 {
-    TcpClient client = server.AcceptTcpClient();
-
-    // new thread for each client
-    Thread t = new Thread(() => HandleClient(client));
+    Socket clientSocket = serverSocket.Accept();
+    Console.WriteLine("Client connected");
+    Thread t = new Thread(() => HandleClient(clientSocket));
     t.Start();
 }
