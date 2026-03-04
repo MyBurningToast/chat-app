@@ -28,50 +28,33 @@
         /// </summary>
         private void InitializeComponent()
         {
-            txtMessage = new TextBox();
-            btnSend = new Button();
-            lstMessages = new ListBox();
             txtUsername = new TextBox();
             btnConnect = new Button();
             label1 = new Label();
             tableLayoutPanel1 = new TableLayoutPanel();
+            tableLayoutPanel4 = new TableLayoutPanel();
+            tableLayoutPanel5 = new TableLayoutPanel();
+            lstUsers = new ListBox();
             tableLayoutPanel2 = new TableLayoutPanel();
-            tableLayoutPanel3 = new TableLayoutPanel();
+            tableLayoutPanel7 = new TableLayoutPanel();
+            label3 = new Label();
+            btnSend = new Button();
+            label2 = new Label();
+            rtxtReciver = new RichTextBox();
+            rtxtMessage = new RichTextBox();
+            lstMessageLogs = new ListBox();
             tableLayoutPanel1.SuspendLayout();
+            tableLayoutPanel4.SuspendLayout();
+            tableLayoutPanel5.SuspendLayout();
             tableLayoutPanel2.SuspendLayout();
-            tableLayoutPanel3.SuspendLayout();
+            tableLayoutPanel7.SuspendLayout();
             SuspendLayout();
-            // 
-            // txtMessage
-            // 
-            txtMessage.Location = new Point(3, 3);
-            txtMessage.Name = "txtMessage";
-            txtMessage.Size = new Size(244, 23);
-            txtMessage.TabIndex = 0;
-            // 
-            // btnSend
-            // 
-            btnSend.Location = new Point(253, 3);
-            btnSend.Name = "btnSend";
-            btnSend.Size = new Size(87, 23);
-            btnSend.TabIndex = 1;
-            btnSend.Text = "Send";
-            btnSend.UseVisualStyleBackColor = true;
-            btnSend.Click += btnSend_Click;
-            // 
-            // lstMessages
-            // 
-            lstMessages.FormattingEnabled = true;
-            lstMessages.Location = new Point(192, 3);
-            lstMessages.Name = "lstMessages";
-            lstMessages.Size = new Size(379, 334);
-            lstMessages.TabIndex = 2;
             // 
             // txtUsername
             // 
             txtUsername.Location = new Point(3, 26);
             txtUsername.Name = "txtUsername";
-            txtUsername.Size = new Size(152, 23);
+            txtUsername.Size = new Size(148, 23);
             txtUsername.TabIndex = 3;
             // 
             // btnConnect
@@ -106,64 +89,163 @@
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 23F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 33F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel1.Size = new Size(180, 84);
+            tableLayoutPanel1.Size = new Size(154, 84);
             tableLayoutPanel1.TabIndex = 6;
+            // 
+            // tableLayoutPanel4
+            // 
+            tableLayoutPanel4.ColumnCount = 1;
+            tableLayoutPanel4.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tableLayoutPanel4.Controls.Add(tableLayoutPanel5, 0, 0);
+            tableLayoutPanel4.Controls.Add(tableLayoutPanel2, 0, 1);
+            tableLayoutPanel4.Location = new Point(12, 12);
+            tableLayoutPanel4.Name = "tableLayoutPanel4";
+            tableLayoutPanel4.RowCount = 2;
+            tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Absolute, 376F));
+            tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Percent, 68.8963242F));
+            tableLayoutPanel4.Size = new Size(843, 437);
+            tableLayoutPanel4.TabIndex = 9;
+            // 
+            // tableLayoutPanel5
+            // 
+            tableLayoutPanel5.ColumnCount = 3;
+            tableLayoutPanel5.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tableLayoutPanel5.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 156F));
+            tableLayoutPanel5.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 520F));
+            tableLayoutPanel5.Controls.Add(lstMessageLogs, 2, 0);
+            tableLayoutPanel5.Controls.Add(tableLayoutPanel1, 0, 0);
+            tableLayoutPanel5.Controls.Add(lstUsers, 1, 0);
+            tableLayoutPanel5.Location = new Point(3, 3);
+            tableLayoutPanel5.Name = "tableLayoutPanel5";
+            tableLayoutPanel5.RowCount = 1;
+            tableLayoutPanel5.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+            tableLayoutPanel5.Size = new Size(837, 370);
+            tableLayoutPanel5.TabIndex = 0;
+            // 
+            // lstUsers
+            // 
+            lstUsers.FormattingEnabled = true;
+            lstUsers.Location = new Point(164, 3);
+            lstUsers.Name = "lstUsers";
+            lstUsers.Size = new Size(150, 364);
+            lstUsers.TabIndex = 7;
             // 
             // tableLayoutPanel2
             // 
             tableLayoutPanel2.ColumnCount = 2;
-            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 250F));
             tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-            tableLayoutPanel2.Controls.Add(btnSend, 1, 0);
-            tableLayoutPanel2.Controls.Add(txtMessage, 0, 0);
-            tableLayoutPanel2.Location = new Point(192, 355);
+            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 676F));
+            tableLayoutPanel2.Controls.Add(tableLayoutPanel7, 1, 0);
+            tableLayoutPanel2.Location = new Point(3, 379);
             tableLayoutPanel2.Name = "tableLayoutPanel2";
             tableLayoutPanel2.RowCount = 1;
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel2.Size = new Size(369, 33);
-            tableLayoutPanel2.TabIndex = 7;
+            tableLayoutPanel2.Size = new Size(837, 55);
+            tableLayoutPanel2.TabIndex = 1;
             // 
-            // tableLayoutPanel3
+            // tableLayoutPanel7
             // 
-            tableLayoutPanel3.ColumnCount = 2;
-            tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 32.92683F));
-            tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 67.07317F));
-            tableLayoutPanel3.Controls.Add(tableLayoutPanel1, 0, 0);
-            tableLayoutPanel3.Controls.Add(tableLayoutPanel2, 1, 1);
-            tableLayoutPanel3.Controls.Add(lstMessages, 1, 0);
-            tableLayoutPanel3.Location = new Point(3, 3);
-            tableLayoutPanel3.Name = "tableLayoutPanel3";
-            tableLayoutPanel3.RowCount = 2;
-            tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Percent, 89.3401F));
-            tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Percent, 10.6598988F));
-            tableLayoutPanel3.Size = new Size(574, 394);
-            tableLayoutPanel3.TabIndex = 8;
+            tableLayoutPanel7.ColumnCount = 3;
+            tableLayoutPanel7.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tableLayoutPanel7.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 440F));
+            tableLayoutPanel7.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 75F));
+            tableLayoutPanel7.Controls.Add(label3, 0, 0);
+            tableLayoutPanel7.Controls.Add(btnSend, 2, 1);
+            tableLayoutPanel7.Controls.Add(label2, 1, 0);
+            tableLayoutPanel7.Controls.Add(rtxtReciver, 0, 1);
+            tableLayoutPanel7.Controls.Add(rtxtMessage, 1, 1);
+            tableLayoutPanel7.Location = new Point(164, 3);
+            tableLayoutPanel7.Name = "tableLayoutPanel7";
+            tableLayoutPanel7.RowCount = 2;
+            tableLayoutPanel7.RowStyles.Add(new RowStyle(SizeType.Percent, 36.7346954F));
+            tableLayoutPanel7.RowStyles.Add(new RowStyle(SizeType.Percent, 63.2653046F));
+            tableLayoutPanel7.Size = new Size(670, 49);
+            tableLayoutPanel7.TabIndex = 0;
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Location = new Point(3, 0);
+            label3.Name = "label3";
+            label3.Size = new Size(48, 15);
+            label3.TabIndex = 10;
+            label3.Text = "Reciver:";
+            // 
+            // btnSend
+            // 
+            btnSend.Location = new Point(598, 21);
+            btnSend.Name = "btnSend";
+            btnSend.Size = new Size(69, 23);
+            btnSend.TabIndex = 1;
+            btnSend.Text = "Send";
+            btnSend.UseVisualStyleBackColor = true;
+            btnSend.Click += btnSend_Click;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(158, 0);
+            label2.Name = "label2";
+            label2.Size = new Size(56, 15);
+            label2.TabIndex = 2;
+            label2.Text = "Message:";
+            // 
+            // rtxtReciver
+            // 
+            rtxtReciver.Location = new Point(3, 21);
+            rtxtReciver.Name = "rtxtReciver";
+            rtxtReciver.Size = new Size(149, 25);
+            rtxtReciver.TabIndex = 11;
+            rtxtReciver.Text = "";
+            // 
+            // rtxtMessage
+            // 
+            rtxtMessage.Location = new Point(158, 21);
+            rtxtMessage.Name = "rtxtMessage";
+            rtxtMessage.Size = new Size(434, 25);
+            rtxtMessage.TabIndex = 12;
+            rtxtMessage.Text = "";
+            // 
+            // lstMessageLogs
+            // 
+            lstMessageLogs.FormattingEnabled = true;
+            lstMessageLogs.Location = new Point(320, 3);
+            lstMessageLogs.Name = "lstMessageLogs";
+            lstMessageLogs.Size = new Size(514, 364);
+            lstMessageLogs.TabIndex = 8;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(96F, 96F);
             AutoScaleMode = AutoScaleMode.Dpi;
-            ClientSize = new Size(579, 401);
-            Controls.Add(tableLayoutPanel3);
+            ClientSize = new Size(866, 460);
+            Controls.Add(tableLayoutPanel4);
             Name = "Form1";
             tableLayoutPanel1.ResumeLayout(false);
             tableLayoutPanel1.PerformLayout();
+            tableLayoutPanel4.ResumeLayout(false);
+            tableLayoutPanel5.ResumeLayout(false);
             tableLayoutPanel2.ResumeLayout(false);
-            tableLayoutPanel2.PerformLayout();
-            tableLayoutPanel3.ResumeLayout(false);
+            tableLayoutPanel7.ResumeLayout(false);
+            tableLayoutPanel7.PerformLayout();
             ResumeLayout(false);
         }
 
         #endregion
-
-        private TextBox txtMessage;
-        private Button btnSend;
-        private ListBox lstMessages;
         private TextBox txtUsername;
         private Button btnConnect;
         private Label label1;
         private TableLayoutPanel tableLayoutPanel1;
+        private TableLayoutPanel tableLayoutPanel4;
+        private TableLayoutPanel tableLayoutPanel5;
+        private ListBox lstUsers;
+        private TableLayoutPanel tableLayoutPanel7;
+        private Label label3;
+        private Button btnSend;
+        private Label label2;
+        private RichTextBox rtxtReciver;
+        private RichTextBox rtxtMessage;
         private TableLayoutPanel tableLayoutPanel2;
-        private TableLayoutPanel tableLayoutPanel3;
+        private ListBox lstMessageLogs;
     }
 }

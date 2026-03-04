@@ -55,17 +55,17 @@ namespace ChatClient
             string? message;
             while ((message = reader.ReadLine()) != null)
             {
-                Invoke(() => lstMessages.Items.Add(message));
+                Invoke(() => lstMessageLogs.Items.Add(message));
             }
         }
 
         private void btnSend_Click(object sender, EventArgs e)
         {
-            string message = txtMessage.Text;
+            string message = rtxtMessage.Text;
             if (!string.IsNullOrEmpty(message))
             {
                 writer.WriteLine(message);
-                txtMessage.Clear();
+                rtxtMessage.Clear();
             }
         }
     }
