@@ -5,9 +5,9 @@ namespace ChatClient
 {
     public partial class Form1 : Form
     {
-        TcpClient client;
-        StreamWriter writer;
-        StreamReader reader;
+        private TcpClient client = null!;
+        private StreamWriter writer = null!;
+        private StreamReader reader = null!;
 
         public Form1()
         {
@@ -50,7 +50,7 @@ namespace ChatClient
             }
         }
 
-        void ReceiveMessages()
+        private void ReceiveMessages()
         {
             string? message;
             while ((message = reader.ReadLine()) != null)
