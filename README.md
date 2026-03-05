@@ -1,5 +1,10 @@
 # Networked Chat System
-
+## How to download
+1. Go to the latest release
+2. Download ChatApp.zip
+3. Extract the folder
+4. There will be 2 exe files, run one instance of the server and then open as many clients as you like
+---
 This project is a networked chat system built in C# using raw sockets and winforms. The server and client have separate applications.
 
 The solution is split into three projects:
