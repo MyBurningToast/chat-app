@@ -205,5 +205,15 @@ namespace ChatClient
                 rtxtMessage.Focus();
             }
         }
+
+
+        private void rtxtMessage_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                e.SuppressKeyPress = true;
+                btnSend_Click(sender, e);
+            }
+        }
     }
 }

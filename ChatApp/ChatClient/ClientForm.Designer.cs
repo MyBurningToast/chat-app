@@ -219,6 +219,7 @@
             rtxtMessage.Size = new Size(434, 25);
             rtxtMessage.TabIndex = 12;
             rtxtMessage.Text = "";
+            rtxtMessage.KeyDown += rtxtMessage_KeyDown;
             // 
             // ClientForm
             // 
