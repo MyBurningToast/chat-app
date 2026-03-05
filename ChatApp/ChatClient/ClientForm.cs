@@ -1,8 +1,6 @@
 using ChatShared;
-using System.Globalization;
 using System.Net;
 using System.Net.Sockets;
-using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace ChatClient
@@ -11,6 +9,7 @@ namespace ChatClient
     {
         Socket socket;
         string username;
+        bool connected = false;
 
         public ClientForm()
         {
@@ -24,22 +23,58 @@ namespace ChatClient
             socket.Send(data);
         }
 
-        string ReciveLine()
+        string ReceiveLine()
         {
             StringBuilder sb = new StringBuilder();
             byte[] buffer = new byte[1];
-            while (true)
+            try
             {
-                int recived = socket.Receive(buffer);
-                if (recived == 0) return null;
-                char c = (char)buffer[0];
-                if (c == '\n') return sb.ToString().Trim();
-                sb.Append(c);
+                while (true)
+                {
+                    int received = socket.Receive(buffer);
+                    if (received == 0) return null;
+                    char c = (char)buffer[0];
+                    if (c == '\n') return sb.ToString().Trim();
+                    sb.Append(c);
+                }
             }
+            catch (SocketException)
+            {
+                return null;
+            }
+        }
+
+        private void Disconnect()
+        {
+            if (!connected) return;
+            connected = false;
+
+            try
+            {
+                socket.Shutdown(SocketShutdown.Both);
+                socket.Close();
+            }
+            catch { }
+
+            Invoke(() =>
+            {
+                btnSend.Enabled = false;
+                btnConnect.Text = "Connect";
+                btnConnect.Enabled = true;
+                txtUsername.Enabled = true;
+                lstUsers.Items.Clear();
+                lblSendingTo.Text = "Sending to: Everyone";
+            });
         }
 
         private void btnConnect_Click(object sender, EventArgs e)
         {
+            if (connected)
+            {
+                Disconnect();
+                return;
+            }
+
             if (string.IsNullOrEmpty(txtUsername.Text))
             {
                 MessageBox.Show("Please enter a username");
@@ -49,31 +84,35 @@ namespace ChatClient
             try
             {
                 username = txtUsername.Text;
-                socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-                socket.Connect(new IPEndPoint(IPAddress.Parse("127.0.0.1"), 5000));
+
+                IPEndPoint endPoint = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 5000);
+                socket = new Socket(endPoint.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
+                socket.Connect(endPoint);
 
                 byte[] name = Encoding.UTF8.GetBytes(username + '\n');
                 socket.Send(name);
+
+                connected = true;
 
                 Thread t = new Thread(ReceiveMessages);
                 t.IsBackground = true;
                 t.Start();
 
                 btnSend.Enabled = true;
-                btnConnect.Enabled = false;
+                btnConnect.Text = "Disconnect";
                 txtUsername.Enabled = false;
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Failed {ex.Message}");
+                MessageBox.Show($"Failed: {ex.Message}");
             }
         }
 
         private void ReceiveMessages()
         {
-            while (true)
+            while (connected)
             {
-                string raw = ReciveLine();
+                string raw = ReceiveLine();
                 if (raw == null) break;
 
                 Packet packet = Packet.Deserialize(raw);
@@ -93,12 +132,8 @@ namespace ChatClient
                         {
                             lstUsers.Items.Clear();
                             foreach (string user in packet.Data)
-                            {
                                 if (user != username)
-                                {
                                     lstUsers.Items.Add(user);
-                                }
-                            }
                         });
                         break;
 
@@ -111,6 +146,8 @@ namespace ChatClient
                         break;
                 }
             }
+
+            Disconnect();
         }
 
         void ClearReceiver()
