@@ -205,6 +205,7 @@
             rtxtReciver.Enabled = false;
             rtxtReciver.Location = new Point(3, 21);
             rtxtReciver.Name = "rtxtReciver";
+            rtxtReciver.ReadOnly = true;
             rtxtReciver.Size = new Size(149, 25);
             rtxtReciver.TabIndex = 11;
             rtxtReciver.Text = "";
@@ -212,7 +213,9 @@
             // rtxtMessage
             // 
             rtxtMessage.Location = new Point(158, 21);
+            rtxtMessage.Multiline = false;
             rtxtMessage.Name = "rtxtMessage";
+            rtxtMessage.ScrollBars = RichTextBoxScrollBars.None;
             rtxtMessage.Size = new Size(434, 25);
             rtxtMessage.TabIndex = 12;
             rtxtMessage.Text = "";
