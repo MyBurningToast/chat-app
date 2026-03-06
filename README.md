@@ -5,7 +5,7 @@
 3. Extract the folder
 4. There will be 2 exe files, run one instance of the server and then open as many clients as you like
 ---
-This project is a networked chat system built in C# using raw sockets and winforms. The server and client have separate applications.
+This project is a networked chat system built in C# using raw sockets and winforms. The server and client have separate applications. <br> No tutorial was followed for this, I just read a bunch of documentation.
 
 The solution is split into three projects:
 
